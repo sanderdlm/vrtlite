@@ -1,13 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-    <h1>{{ article.title }}</h1>
-
     <main>
+        <h1>{{ article.title }}</h1>
         {{ article.content|raw }}
     </main>
-
     <footer>
-        Laatste update: {{ article.updated }}. <a href="">Bron</a>
+        Laatste update: {{ article.updated|date('d/m/Y H:i:s') }}. <a href="{{ article.link }}" target="_blank">Bron</a>
     </footer>
 {% endblock %}

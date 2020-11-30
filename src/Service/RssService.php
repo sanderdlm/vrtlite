@@ -79,8 +79,9 @@ class RssService
     {
         $article = [
             'title' => $feed['entry']['title'],
-            'updated' => $feed['entry']['updated'],
-            'content' => $feed['entry']['content'],
+            'updated' => new \DateTime($feed['entry']['updated']),
+            'content' => $this->trimContent($feed['entry']['content']),
+            'link' => $feed['id'],
         ];
 
         $articleId = $this->findArticleId($feed['entry']);
@@ -88,5 +89,22 @@ class RssService
         $this->cache->set($articleId . '_content', json_encode($article));
 
         return $article;
+    }
+
+    private function trimContent(string $content)
+    {
+        return strip_tags($content, [
+            '<h1>',
+            '<h2>',
+            '<h3>',
+            '<h4>',
+            '<h5>',
+            '<h6>',
+            '<p>',
+            '<ol>',
+            '<ul>',
+            '<li>',
+            '<blockquote>',
+        ]);
     }
 }

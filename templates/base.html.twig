@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,12 +21,13 @@
 
         :root {
             --mine-shaft: #212121;
-            --mercury: #e8e8e8;
+            --screamin: #5dfc71;
 
             --color-text: var(--mine-shaft);
-            --color-accent: var(--mercury);
+            --color-accent: var(--screamin);
 
             --breathe: 2rem;
+            --half: calc(var(--breathe) / 2);
             --font-size: 1.25rem;
         }
 
@@ -43,6 +43,7 @@
             line-height: 1.5;
             display: flex;
             flex-direction: column;
+            max-width: 55rem;
             padding: var(--breathe);
         }
 
@@ -50,27 +51,34 @@
             line-height: 1;
         }
 
-        /*
-         * Basics
-         */
-
-        a {
-            color: var(--color-text)
+        ul {
+            list-style: none;
         }
 
-        /*
-         * Layout
-         */
-
         main > * + * {
-            margin-top: 2rem;
+            margin-top: var(--breathe);
+        }
+
+        .headlines li + li {
+            margin-top: var(--half);
+        }
+
+        blockquote {
+            border-left: solid 5px var(--color-accent);
+            padding-left: var(--half);
+        }
+
+        footer {
+            border-top: solid 5px var(--color-accent);
+            margin-top: var(--breathe);
+            padding-top: var(--breathe);
         }
 
         /*
          * Mobile
          */
 
-        @media(max-width:80rem) {
+        @media(max-width:40rem) {
 
             body {
                 font-size: 1rem;
