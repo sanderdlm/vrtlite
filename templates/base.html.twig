@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>VRT lite</title>
+    <meta name="description" content="VRT Nieuws text only">
+    <meta name="author" content="Sander De la Marche">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="images/icon.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /*
+         * Variables
+         */
+
+        :root {
+            --mine-shaft: #212121;
+            --mercury: #e8e8e8;
+
+            --color-text: var(--mine-shaft);
+            --color-accent: var(--mercury);
+
+            --breathe: 2rem;
+            --font-size: 1.25rem;
+        }
+
+        /*
+         * Body & typo settings
+         */
+
+        body {
+            font-family: -apple-system,BlinkMacSystemFont,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
+            font-size: var(--font-size);
+            color: var(--color-text);
+            overflow-y: scroll;
+            line-height: 1.5;
+            display: flex;
+            flex-direction: column;
+            padding: var(--breathe);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            line-height: 1;
+        }
+
+        /*
+         * Basics
+         */
+
+        a {
+            color: var(--color-text)
+        }
+
+        /*
+         * Layout
+         */
+
+        main > * + * {
+            margin-top: 2rem;
+        }
+
+        /*
+         * Mobile
+         */
+
+        @media(max-width:80rem) {
+
+            body {
+                font-size: 1rem;
+                padding: 1rem;
+            }
+
+        }
+    </style>
+</head>
+<body>
+{% block content %}
+
+{% endblock %}
+</body>
+</html>

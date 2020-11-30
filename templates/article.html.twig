@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h1>{{ article.title }}</h1>
+
+    <main>
+        {{ article.content|raw }}
+    </main>
+
+    <footer>
+        Laatste update: {{ article.updated }}. <a href="">Bron</a>
+    </footer>
+{% endblock %}

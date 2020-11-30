@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h1>{{ content.title }}</h1>
+
+    <ul>
+    {% for headline in content.entry %}
+        <li><a href="{{ path('article', {'article': headline.id|split('.')|last }) }}">{{ headline.title }}</a></li>
+    {% endfor %}
+    </ul>
+
+    <footer>
+        Laatste update: {{ content.updated }}. <a href="{{ content.id }}">Bron</a>
+    </footer>
+{% endblock %}
