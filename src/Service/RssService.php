@@ -8,7 +8,7 @@ use DOMXPath;
 class RssService
 {
     private const FILTER = [
-        'liveblog:',
+        'liveblog',
         'in kaart:',
         'het journaal',
         'het weer',
