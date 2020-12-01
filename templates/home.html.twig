@@ -1,15 +1,15 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-    <h1>{{ content.title }}</h1>
     <main>
+        <h1>{{ content.title }}</h1>
         <ul class="headlines">
-        {% for headline in content.entry %}
+        {% for headline in content.headlines %}
             <li><a href="{{ path('article', {'article': headline.id|split('.')|last }) }}">{{ headline.title }}</a></li>
         {% endfor %}
         </ul>
     </main>
     <footer>
-        Laatste update: {{ content.updated }}. <a href="{{ content.id }}">Bron</a>
+        Laatste update: {{ content.updated }}. <a href="{{ content.link }}">Bron</a>
     </footer>
 {% endblock %}

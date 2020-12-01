@@ -2,8 +2,22 @@
 
 namespace App\Service;
 
+use DOMDocument;
+use DOMXPath;
+
 class RssService
 {
+    private const FILTER = [
+        'liveblog:',
+        'in kaart:',
+        'het journaal',
+        'het weer',
+        'terzake',
+        'de afspraak',
+        'de zevende dag',
+        'overzicht:'
+    ];
+
     private RedisService $cache;
 
     public function __construct(RedisService $cache)
@@ -11,19 +25,17 @@ class RssService
         $this->cache = $cache;
     }
 
-    public function getHeadlines()
+    public function getHeadlines(): array
     {
         $feed = $this->getFeed('https://www.vrt.be/vrtnws/nl.rss.headlines.xml');
 
-        $this->cacheArticleLinks($feed);
-
-        return $feed;
+        return $this->trimHeadlines($feed);
     }
 
-    public function getArticle(string $articleId)
+    public function getArticle(string $articleId): array
     {
         if ($this->cache->exists($articleId . '_content')) {
-            return json_decode($this->cache->get($articleId . '_content'));
+            return json_decode($this->cache->get($articleId . '_content'), true);
         }
 
         $articleLink = $this->cache->get($articleId);
@@ -40,20 +52,44 @@ class RssService
         return json_decode($json,true);
     }
 
-    private function cacheArticleLinks(array $feed): void
+    private function trimHeadlines(array $feed): array
     {
+        $timestamp = new \DateTime($feed['updated']);
+
+        $trimmedHeadlines = [
+            'title' => $feed['title'],
+            'updated' => $timestamp->format('d/m/Y H:i:s'),
+            'link' => $feed['id'],
+            'headlines' => [],
+        ];
+
         if (isset($feed['entry']) && !empty($feed['entry'])) {
             foreach($feed['entry'] as $article) {
-
-                $articleId = $this->findArticleId($article);
-
-                $articleFeedLink = $this->findArticleFeedLink($article);
-
-                if ($articleFeedLink !== null) {
-                    $this->cache->set($articleId, $articleFeedLink);
+                if (!$this->filterArticle($article)) {
+                    $this->cacheArticleLink($article);
+                    $trimmedHeadlines['headlines'][] = $article;
                 }
             }
         }
+
+        return $trimmedHeadlines;
+    }
+
+    private function filterArticle(array $article): bool
+    {
+        foreach (self::FILTER as $keyword) {
+            if (stripos($article['title'], $keyword) !== false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function findArticleId(array $article): string
+    {
+        $array = explode('.', $article['id']);
+        return end($array);
     }
 
     private function findArticleFeedLink(array $article): ?string
@@ -69,17 +105,24 @@ class RssService
         return null;
     }
 
-    private function findArticleId(array $article): string
+    private function cacheArticleLink(array $article): void
     {
-        $array = explode('.', $article['id']);
-        return end($array);
+        $articleId = $this->findArticleId($article);
+
+        $articleFeedLink = $this->findArticleFeedLink($article);
+
+        if ($articleFeedLink !== null) {
+            $this->cache->set($articleId, $articleFeedLink);
+        }
     }
 
     private function cacheArticleContent(array $feed): array
     {
+        $timestamp = new \DateTime($feed['entry']['updated']);
+
         $article = [
             'title' => $feed['entry']['title'],
-            'updated' => new \DateTime($feed['entry']['updated']),
+            'updated' => $timestamp->format('d/m/Y H:i:s'),
             'content' => $this->trimContent($feed['entry']['content']),
             'link' => $feed['id'],
         ];
@@ -91,9 +134,12 @@ class RssService
         return $article;
     }
 
-    private function trimContent(string $content)
+    private function trimContent(string $content): string
     {
-        return strip_tags($content, [
+        /*
+         * First step in the cleaning process: only allow a limited set of HTML tags
+         */
+        $content = strip_tags($content, [
             '<h1>',
             '<h2>',
             '<h3>',
@@ -104,7 +150,45 @@ class RssService
             '<ol>',
             '<ul>',
             '<li>',
+            '<a>',
             '<blockquote>',
         ]);
+
+        /*
+         * Next up, we have a lot of newlines from where we eliminated tags, let's clean it up
+         */
+        $content = str_replace(array("\n", "\r"), '', $content);
+
+        $content = '<meta charset=utf-8">' . $content;
+
+        /*
+         * Now for the specific work, let's load our semi-clean HTML string into a DOMDocument
+         */
+        $dom = new DOMDocument();
+        $dom->loadHTML($content);
+        $dom->encoding = 'utf-8';
+        $xp = new DOMXPath($dom);
+
+        /*
+         * Now, let's remove a couple of nodes we don't want on our text-only version
+         */
+
+        // Video player mentions
+        $xpath = '//text()[contains(., "Video player inladen...")]';
+        foreach($xp->query($xpath) as $node) {
+            $node->parentNode->removeChild($node->previousSibling);
+            $node->parentNode->removeChild($node);
+        }
+
+        // Teaser links to other articles
+        $xpath = '//a/h2/..';
+        foreach($xp->query($xpath) as $node) {
+            $node->parentNode->removeChild($node);
+        }
+
+        /*
+         *
+         */
+        return $dom->saveHTML();
     }
 }

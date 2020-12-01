@@ -10,6 +10,7 @@
         "ext-json": "*",
         "ext-simplexml": "*",
         "ext-redis": "*",
+        "ext-dom": "*",
         "doctrine/annotations": "^1.11",
         "symfony/cache": "5.2.*",
         "symfony/console": "5.2.*",
@@ -21,7 +22,8 @@
         "symfony/yaml": "5.2.*"
     },
     "require-dev": {
-        "symfony/var-dumper": "5.2.*"
+        "symfony/stopwatch": "^5.2",
+        "symfony/web-profiler-bundle": "^5.2"
     },
     "config": {
         "optimize-autoloader": true,

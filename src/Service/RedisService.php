@@ -33,7 +33,7 @@ class RedisService
 
     public function set($key, $value): void
     {
-        $this->client->set($key, $value);
+        $this->client->set($key, $value, 3600);
     }
 
     public function exists($key): int
