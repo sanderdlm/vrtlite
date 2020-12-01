@@ -40,6 +40,4 @@ class RedisService
     {
         return $this->client->exists($key);
     }
-
-
 }

@@ -34,10 +34,11 @@ class RssService
 
     public function getArticle(string $articleId): array
     {
+        /*
         if ($this->cache->exists($articleId . '_content')) {
             return json_decode($this->cache->get($articleId . '_content'), true);
         }
-
+        */
         $articleLink = $this->cache->get($articleId);
 
         $feed = $this->getFeed($articleLink);
@@ -166,7 +167,7 @@ class RssService
          */
         $dom = new DOMDocument();
         $dom->loadHTML($content);
-        $dom->encoding = 'utf-8';
+
         $xp = new DOMXPath($dom);
 
         /*
@@ -177,6 +178,22 @@ class RssService
         $xpath = '//text()[contains(., "Video player inladen...")]';
         foreach($xp->query($xpath) as $node) {
             $node->parentNode->removeChild($node->previousSibling);
+            $node->parentNode->removeChild($node);
+        }
+
+        // Video player mentions
+        $xpath = '//text()[contains(., "Copyright 20")]';
+        foreach($xp->query($xpath) as $node) {
+            $node->parentNode->removeChild($node);
+        }
+
+        $xpath = '//text()[contains(., "Lees verder onder de foto")]';
+        foreach($xp->query($xpath) as $node) {
+            $node->parentNode->removeChild($node);
+        }
+
+        $xpath = '//text()[contains(., "Lees voort onder")]';
+        foreach($xp->query($xpath) as $node) {
             $node->parentNode->removeChild($node);
         }
 
