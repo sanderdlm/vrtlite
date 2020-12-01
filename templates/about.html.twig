@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <main>
+        <h1>VRT Lite</h1>
+        <p>Deze website is een simpele, tekst-only versie van vrt.be/vrtnws. Geen foto's, video's, liveblogs, scripts, trackers en cookies.</p>
+        <p>Vermeldingen van vaste programma's zoals Het Journaal, Het Weer, De Afspraak, De Zevende Dag en Terzake worden gefilterd.</p>
+        <p>De code is <a href="https://github.com/dreadnip/vrtlite">open-source</a>. Voor vragen of bugs, maak <a href="https://github.com/dreadnip/vrtlite/issues">een issue</a>.</p>
+        <p>Inspiratie was <a href="https://noslite.nl/">noslite</a>.</p>
+    </main>
+    <footer>
+        <a href="{{ path('home') }}">Terug</a>
+    </footer>
+{% endblock %}
