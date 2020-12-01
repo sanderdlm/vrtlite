@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>VRT lite</title>
-    <meta name="description" content="VRT Nieuws text only">
+    <meta name="description" content="Het nieuws van VRT NWS maar dan enkel tekst. Geen afbeeldingen, videos, cookies, scripts of trackers. Snel en simpel.">
     <meta name="author" content="Sander De la Marche">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="/images/favicon.png">
@@ -14,10 +14,6 @@
             box-sizing: border-box;
             -webkit-font-smoothing: antialiased;
         }
-
-        /*
-         * Variables
-         */
 
         :root {
             --mine-shaft: #212121;
@@ -31,18 +27,12 @@
             --font-size: 1.25rem;
         }
 
-        /*
-         * Body & typo settings
-         */
-
         body {
             font-family: -apple-system,BlinkMacSystemFont,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
             font-size: var(--font-size);
             color: var(--color-text);
             overflow-y: scroll;
             line-height: 1.5;
-            display: flex;
-            flex-direction: column;
             max-width: 55rem;
             padding: var(--breathe);
         }
@@ -63,6 +53,10 @@
             margin-top: var(--breathe);
         }
 
+        main > h2 + * {
+            margin-top: var(--half);
+        }
+
         .headlines li + li {
             margin-top: var(--half);
         }
@@ -77,10 +71,6 @@
             margin-top: var(--breathe);
             padding-top: var(--breathe);
         }
-
-        /*
-         * Mobile
-         */
 
         @media(max-width:40rem) {
 
