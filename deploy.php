@@ -2,16 +2,13 @@
 
 namespace Deployer;
 
-require 'recipe/symfony.php';
+require 'recipe/symfony4.php';
 
 // Project name
 set('application', 'vrtlite');
 
 // Project repository
 set('repository', 'git@github.com:dreadnip/vrtlite.git');
-
-// [Optional] Allocate tty for git clone. Default value is false.
-set('git_tty', true);
 
 set('composer_options', 'install --verbose --prefer-dist --no-progress --no-interaction --optimize-autoloader');
 
@@ -32,16 +29,6 @@ host('vrtlite.be')
     ->set('branch', 'master')
     ->set('deploy_path', '~/var/www/vrtlite')
 ;
-// Tasks
-
-task('pwd', function () {
-    $result = run('pwd');
-    writeln("Current dir: $result");
-});
-
-task('build', function () {
-    run('cd {{release_path}} && build');
-});
 
 // [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
