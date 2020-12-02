@@ -23,6 +23,7 @@
     },
     "require-dev": {
         "deployer/deployer": "^6.8",
+        "deployer/recipes": "^6.2",
         "symfony/stopwatch": "^5.2",
         "symfony/web-profiler-bundle": "^5.2"
     },

@@ -5,6 +5,9 @@
     "deployer/phar-update": {
         "version": "v2.2.0"
     },
+    "deployer/recipes": {
+        "version": "6.2.2"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {

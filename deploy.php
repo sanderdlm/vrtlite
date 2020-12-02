@@ -2,6 +2,7 @@
 
 namespace Deployer;
 
+require 'recipe/cachetool.php';
 require 'recipe/symfony4.php';
 
 // Project name
@@ -27,5 +28,7 @@ host('vrtlite.be')
     ->set('deploy_path', '/var/www/vrtlite')
 ;
 
-// [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
+
+// Clear the Opcache
+after('deploy:symlink', 'cachetool:clear:opcache');
