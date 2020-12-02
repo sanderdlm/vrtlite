@@ -152,6 +152,10 @@ class RssService
             '<ul>',
             '<li>',
             '<a>',
+            '<table>',
+            '<tr>',
+            '<td>',
+            '<th>',
             '<blockquote>',
         ]);
 
