@@ -11,6 +11,7 @@
         "ext-simplexml": "*",
         "ext-redis": "*",
         "ext-dom": "*",
+        "ext-libxml": "*",
         "doctrine/annotations": "^1.11",
         "symfony/cache": "5.2.*",
         "symfony/console": "5.2.*",

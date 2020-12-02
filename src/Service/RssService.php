@@ -34,11 +34,10 @@ class RssService
 
     public function getArticle(string $articleId): array
     {
-        /*
         if ($this->cache->exists($articleId . '_content')) {
             return json_decode($this->cache->get($articleId . '_content'), true);
         }
-        */
+
         $articleLink = $this->cache->get($articleId);
 
         $feed = $this->getFeed($articleLink);
@@ -162,8 +161,11 @@ class RssService
         /*
          * Next up, we have a lot of newlines from where we eliminated tags, let's clean it up
          */
-        $content = str_replace(array("\n", "\r"), '', $content);
+        $content = trim(str_replace(["\n", "\r"], '', $content));
 
+        /*
+         * A small hack to fix UTF-8 encoding for DOMDocuments
+         */
         $content = '<meta charset=utf-8">' . $content;
 
         /*
@@ -171,7 +173,6 @@ class RssService
          */
         $dom = new DOMDocument();
         $dom->loadHTML($content);
-
         $xp = new DOMXPath($dom);
 
         /*
@@ -185,17 +186,19 @@ class RssService
             $node->parentNode->removeChild($node);
         }
 
-        // Video player mentions
+        // Image copyright mentions TODO: fix the 20 and make it match more copyright mentions
         $xpath = '//text()[contains(., "Copyright 20")]';
         foreach($xp->query($xpath) as $node) {
             $node->parentNode->removeChild($node);
         }
 
-        $xpath = '//text()[contains(., "Lees verder onder de foto")]';
+        // Image descriptions
+        $xpath = '//text()[contains(., "onder de foto")]';
         foreach($xp->query($xpath) as $node) {
             $node->parentNode->removeChild($node);
         }
 
+        // Image headlines
         $xpath = '//text()[contains(., "Lees voort onder")]';
         foreach($xp->query($xpath) as $node) {
             $node->parentNode->removeChild($node);
@@ -208,8 +211,11 @@ class RssService
         }
 
         /*
-         *
+         * Our DOMDocument wraps HTML content in <html>, <head> and <body> tags, we don't need those
+         * so we only select the body tag and then filter it out with str_replace
          */
-        return $dom->saveHTML();
+        $content = $dom->saveHTML($dom->getElementsByTagName('body')->item(0));
+
+        return $content = str_replace(["<body>", "</body>"], '', $content);
     }
 }
