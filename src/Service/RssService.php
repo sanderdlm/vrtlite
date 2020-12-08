@@ -15,7 +15,8 @@ class RssService
         'terzake',
         'de afspraak',
         'de zevende dag',
-        'overzicht:'
+        'overzicht:',
+        'bekijk:'
     ];
 
     private RedisService $cache;

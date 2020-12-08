@@ -7,11 +7,106 @@
     <meta name="author" content="Sander De la Marche">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="/images/favicon.png">
-    <style>*{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}:root{--mine-shaft:#212121;--screamin:#5dfc71;--color-text:var(--mine-shaft);--color-accent:var(--screamin);--breathe:2rem;--half:calc(var(--breathe) / 2);--font-size:1.3rem}body{font-family:-apple-system,BlinkMacSystemFont,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;font-size:var(--font-size);color:var(--color-text);overflow-y:scroll;line-height:1.5;max-width:55rem;padding:var(--breathe)}h1,h2,h3,h4,h5,h6{line-height:1}ul{list-style:none}ol{margin-left:var(--breathe)}main>*+*{margin-top:var(--breathe)}main>h2+*{margin-top:var(--half)}.headlines li+li{margin-top:var(--half)}blockquote{border-left:solid 5px var(--color-accent);padding-left:var(--half)}footer{border-top:solid 5px var(--color-accent);margin-top:var(--breathe);padding-top:var(--breathe)}@media(max-width:40rem){:root{--breathe:1rem}body{font-size:1.15rem}}</style>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased
+        }
+
+        :root {
+            --mine-shaft: #212121;
+            --screamin: #5dfc71;
+            --color-text: var(--mine-shaft);
+            --color-accent: var(--screamin);
+            --breathe: 2rem;
+            --half: calc(var(--breathe) / 2);
+            --font-size: 1.3rem
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+            font-size: var(--font-size);
+            color: var(--color-text);
+            overflow-y: scroll;
+            line-height: 1.5;
+            max-width: 55rem;
+            padding: var(--breathe)
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            line-height: 1
+        }
+
+        ul {
+            list-style: none
+        }
+
+        ol {
+            margin-left: var(--breathe)
+        }
+
+        main>*+* {
+            margin-top: var(--breathe)
+        }
+
+        main>h2+* {
+            margin-top: var(--half)
+        }
+
+        .headlines li+li {
+            margin-top: var(--half)
+        }
+
+        blockquote {
+            border-left: solid 5px var(--color-accent);
+            padding-left: var(--half)
+        }
+
+        footer {
+            border-top: solid 5px var(--color-accent);
+            margin-top: var(--breathe);
+            padding-top: var(--breathe)
+        }
+
+        @media(max-width:40rem) {
+            :root {
+                --breathe: 1rem
+            }
+            body {
+                font-size: 1.15rem
+            }
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #333;
+                color: #ddd;
+            }
+
+            a {
+               color: #5eb5e0;
+            }
+
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                color: #fff;
+            }
+        }
+    </style>
 </head>
 <body>
 {% block content %}
-
 {% endblock %}
 </body>
 </html>

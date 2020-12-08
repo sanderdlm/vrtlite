@@ -5,7 +5,7 @@
         <h1>{{ content.title }}</h1>
         <ul class="headlines">
         {% for headline in content.headlines %}
-            <li><a href="{{ path('article', {'article': headline.id|split('.')|last }) }}">{{ headline.title }}</a></li>
+    <li><a href="{{ path('article', {'article': headline.id|split('.')|last }) }}">{{ headline.title }}</a></li>
         {% endfor %}
         </ul>
     </main>
