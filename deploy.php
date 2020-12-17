@@ -26,7 +26,7 @@ host('vrtlite.be')
     ->port(22)
     ->set('branch', 'master')
     ->set('deploy_path', '/var/www/vrtlite')
-    ->set('cachetool', '/var/run/php/php74-fpm.sock')
+    ->set('cachetool', '/var/run/php/php7.4-fpm.sock')
 ;
 
 after('deploy:failed', 'deploy:unlock');
