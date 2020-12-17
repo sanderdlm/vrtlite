@@ -29,6 +29,10 @@ host('vrtlite.be')
     ->set('cachetool', '/var/run/php/php7.4-fpm.sock')
 ;
 
+task('reload:php-fpm', function () {
+    run('sudo service php7.4-fpm reload');
+});
+
 after('deploy:failed', 'deploy:unlock');
 
 // Clear the Opcache
