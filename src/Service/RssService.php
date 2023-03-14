@@ -4,6 +4,7 @@ namespace App\Service;
 
 use DOMDocument;
 use DOMXPath;
+use Symfony\Component\DomCrawler\Crawler;
 
 class RssService
 {
@@ -36,6 +37,7 @@ class RssService
     public function getArticle(string $articleId): array
     {
         if ($this->cache->exists($articleId . '_content')) {
+            $this->cache->clear($articleId . '_content');
             return json_decode($this->cache->get($articleId . '_content'), true);
         }
 
@@ -157,6 +159,7 @@ class RssService
             '<td>',
             '<th>',
             '<blockquote>',
+            '<img>'
         ]);
 
         /*
@@ -217,6 +220,6 @@ class RssService
          */
         $content = $dom->saveHTML($dom->getElementsByTagName('body')->item(0));
 
-        return $content = str_replace(["<body>", "</body>"], '', $content);
+        return str_replace(["<body>", "</body>"], '', $content);
     }
 }
