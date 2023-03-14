@@ -2,14 +2,14 @@
 
 {% block content %}
     <main>
-        <h1>{{ content.title }}</h1>
+        <h1>{{ feed.title }}</h1>
         <ul class="headlines">
-        {% for headline in content.headlines %}
-    <li><a href="{{ path('article', {'article': headline.id|split('.')|last }) }}">{{ headline.title }}</a></li>
+        {% for article in feed.articles %}
+    <li><a href="{{ path('article', {'article': article.id }) }}">{{ article.title }}</a></li>
         {% endfor %}
         </ul>
     </main>
     <footer>
-        Laatste update: {{ content.updated }} | <a href="{{ content.link }}" target="_blank" rel="noreferrer">Bron</a> | <a href="{{ path('about') }}">Info</a>
+        Laatste update: {{ feed.updated|date('Y-m-d H:m:i') }} | <a href="{{ feed.link }}" target="_blank" rel="noreferrer">Bron</a> | <a href="{{ path('about') }}">Info</a>
     </footer>
 {% endblock %}

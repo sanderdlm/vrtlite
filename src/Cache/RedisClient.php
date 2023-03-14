@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Service;
+namespace App\Cache;
 
 use Redis;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 
-class RedisService
+class RedisClient
 {
     private Redis $client;
 
@@ -16,19 +16,19 @@ class RedisService
         );
     }
 
-    public function get(string $key)
+    public function get(string $key): mixed
     {
         return $this->client->get($key);
     }
 
-    public function set(string $key, $value): void
+    public function set(string $key, mixed $value): void
     {
         $this->client->set($key, $value, 3600);
     }
 
     public function exists(string $key): bool
     {
-        return $this->client->exists($key);
+        return (bool) $this->client->exists($key);
     }
 
     public function clear(string $key): int
