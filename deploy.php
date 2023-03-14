@@ -2,8 +2,7 @@
 
 namespace Deployer;
 
-require 'recipe/cachetool.php';
-require 'recipe/symfony4.php';
+require 'recipe/symfony.php';
 
 // Project name
 set('application', 'vrtlite');
@@ -25,15 +24,10 @@ host('vrtlite.be')
     ->user('sander')
     ->port(22)
     ->set('branch', 'master')
-    ->set('deploy_path', '/var/www/vrtlite')
-    ->set('cachetool', '/var/run/php/php7.4-fpm.sock')
-;
-
-task('reload:php-fpm', function () {
-    run('sudo service php7.4-fpm reload');
-});
+    ->set('deploy_path', '/var/www/vrtlite');
 
 after('deploy:failed', 'deploy:unlock');
 
-// Clear the Opcache
-after('deploy:symlink', 'cachetool:clear:opcache');
+task('clear:opcache', function () {
+    run('{{bin/php}} {{ release_or_current_path }}/vendor/bin/chop');
+})->addAfter('deploy:symlink');

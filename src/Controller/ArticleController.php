@@ -4,22 +4,19 @@ namespace App\Controller;
 
 use App\Service\RssService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ArticleController extends AbstractController
 {
-    /**
-     * @Route("/a/{article}", name="article")
-     */
+    #[Route('/a/{article}', name: 'article')]
     public function __invoke(
         string $article,
         RssService $rssService
-    ){
-        $article = $rssService->getArticle($article);
-
+    ): Response {
         return $this->render('article.html.twig',
             [
-                'article' => $article,
+                'article' => $rssService->getArticle($article),
             ]
         );
     }
