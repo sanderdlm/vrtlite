@@ -69,6 +69,14 @@
             padding-left: var(--half)
         }
 
+        img {
+            max-width: 100%;
+        }
+
+        .hidden {
+            display: none;
+        }
+
         footer {
             border-top: solid 5px var(--color-accent);
             margin-top: var(--breathe);
@@ -109,5 +117,18 @@
 <body>
 {% block content %}
 {% endblock %}
+<script>
+    const imageToggleLinks = document.querySelectorAll('.toggle-image')
+
+    if (imageToggleLinks) {
+        imageToggleLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const image = e.target.parentNode.parentNode.querySelector('img')
+                image.classList.toggle('hidden')
+            })
+        })
+    }
+</script>
 </body>
 </html>

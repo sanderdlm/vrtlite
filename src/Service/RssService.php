@@ -183,7 +183,7 @@ class RssService
          */
 
         // Video player mentions
-        $xpath = '//text()[contains(., "Video player inladen...")]';
+        $xpath = '//text()[contains(., "inladen...")]';
         foreach($xp->query($xpath) as $node) {
             $node->parentNode->removeChild($node->previousSibling);
             $node->parentNode->removeChild($node);
@@ -201,8 +201,26 @@ class RssService
             $node->parentNode->removeChild($node);
         }
 
+        // Image descriptions
+        $xpath = '//text()[contains(., "Beluister het gesprek")]';
+        foreach($xp->query($xpath) as $node) {
+            $node->parentNode->removeChild($node);
+        }
+
         // Image headlines
         $xpath = '//text()[contains(., "Lees voort onder")]';
+        foreach($xp->query($xpath) as $node) {
+            $node->parentNode->removeChild($node);
+        }
+
+        // Image headlines
+        $xpath = '//text()[contains(., "BEKIJK - ")]';
+        foreach($xp->query($xpath) as $node) {
+            $node->parentNode->removeChild($node);
+        }
+
+        // Image headlines
+        $xpath = '//text()[contains(., "KIJK - ")]';
         foreach($xp->query($xpath) as $node) {
             $node->parentNode->removeChild($node);
         }
@@ -211,6 +229,26 @@ class RssService
         $xpath = '//a/h2/..';
         foreach($xp->query($xpath) as $node) {
             $node->parentNode->removeChild($node);
+        }
+
+        $figure = $dom->createElement('figure');
+        $caption = $dom->createElement('figcaption');
+        $showImageLink = $dom->createElement('a', 'Toon afbeelding');
+        $showImageLink->setAttribute('class', 'toggle-image');
+        $showImageLink->setAttribute('href', '#');
+        $caption->appendChild($showImageLink);
+        $figure->appendChild($caption);
+
+        $imageNodes = $dom->getElementsByTagName('img');
+        foreach ($imageNodes as $image) {
+            $newFigure = $figure->cloneNode(true);
+
+            $image->parentNode->replaceChild($newFigure, $image);
+
+            $image->setAttribute('class', 'hidden');
+            $image->setAttribute('loading', 'lazy');
+
+            $newFigure->appendChild($image);
         }
 
         /*
