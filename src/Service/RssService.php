@@ -37,7 +37,6 @@ class RssService
     public function getArticle(string $articleId): array
     {
         if ($this->cache->exists($articleId . '_content')) {
-            $this->cache->clear($articleId . '_content');
             return json_decode($this->cache->get($articleId . '_content'), true);
         }
 
